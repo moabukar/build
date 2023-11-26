@@ -1,0 +1,28 @@
+FROM ruby:2.3.0-slim
+MAINTAINER	Mo Abukar <moabukar9@gmail.com>
+
+ENV	HOME/opt/build
+WORKDIR	/opt/build
+
+RUN	groupadd --system build	&&	\
+	useradd  --system --gid build --home-dir /opt --shell /sbin/nologin build
+
+COPY src/build	/opt/build
+
+RUN	deps='	\
+	make \
+	gcc	\
+	patch \
+	libpq-dev \
+	libcrypto++-dev	\
+	libssl-dev \
+	' &&	\
+	apt-get update	&&	\
+	apt-get install -y --no-install-recommends libpq5 $deps	&&	\
+	ruby -S bundle install --deployment	&&	\
+	apt-get purge -y --auto-remove $deps
+
+RUN	chown -R build. /opt/build
+
+USER build
+

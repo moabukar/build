@@ -1,0 +1,17 @@
+---
+- name: Install Docker
+  yum: name=docker state=present
+
+- name: Start Docker
+  service: name=docker state=restarted
+
+- name: Run nginx container
+  docker:
+    name:           nginx
+    image:          nginx
+    state:          started
+    restart_policy: always
+    ports:
+      - 80:80
+
+

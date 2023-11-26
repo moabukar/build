@@ -1,0 +1,50 @@
+app:
+  build: .
+
+web:
+  extends:
+    service:    app
+  command:      ruby -S bundle exec rails s -p 3000 -b 0.0.0.0
+  working_dir:  /opt/build/
+  volumes:
+    - ./src/build:/opt/build
+  ports:
+    - 3000:3000
+  links:
+    - postgres
+    - redis
+
+sidekiq_web:
+  extends:
+    service:    app
+  command:      ruby -S bundle exec rackup --host 0.0.0.0 --port 9494 --pid tmp/pids/sidekiq_web.pid sidekiq.ru
+  working_dir:  /opt/build/
+  volumes_from:
+    - web
+  ports:
+    - 9494:9494
+  links:
+    - postgres
+    - redis
+
+sidekiq_workers:
+  extends:
+    service:   app
+  command:      ruby -S bundle exec sidekiq --require . --config config/sidekiq.yml
+  working_dir:  /opt/build/
+  volumes_from:
+    - web
+  links:
+    - postgres
+    - redis
+
+postgres:
+  image: postgres
+  ports:
+    - 5432
+
+redis:
+  image: redis
+  ports:
+    - 6379
+

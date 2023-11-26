@@ -1,0 +1,5 @@
+---
+- sudo:   yes
+  hosts:  localhost
+  roles:
+    - main
