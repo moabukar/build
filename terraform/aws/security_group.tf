@@ -1,6 +1,6 @@
-resource "aws_security_group" "zadni" {
-    name        = "zadni-security-group"
-    description = "Security Group for zadni app"
+resource "aws_security_group" "build" {
+    name        = "build-security-group"
+    description = "Security Group for build app"
 
     ingress {
         from_port   = 22
@@ -21,11 +21,11 @@ resource "aws_security_group" "zadni" {
     }
 
     tags {
-        Name = "zadni-sg"
+        Name = "build-sg"
     }
 }
 
 output "aws_sg" {
-    value = "${aws_security_group.zadni.id}"
+    value = "${aws_security_group.build.id}"
 }
 

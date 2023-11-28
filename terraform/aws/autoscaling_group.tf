@@ -1,9 +1,9 @@
-resource "aws_autoscaling_group" "zadni" {
-    name = "zadni-autoscaling-group"
+resource "aws_autoscaling_group" "build" {
+    name = "build-autoscaling-group"
 
-    depends_on = [ "aws_elb.zadni" ]
+    depends_on = [ "aws_elb.build" ]
 
-    availability_zones          = [ "${aws_elb.zadni.availability_zones}" ]
+    availability_zones          = [ "${aws_elb.build.availability_zones}" ]
     min_size                    = 1
     max_size                    = 6
     desired_capacity            = 3
@@ -13,15 +13,15 @@ resource "aws_autoscaling_group" "zadni" {
     health_check_grace_period   = 300
     health_check_type           = "ELB"
 
-    launch_configuration = "${aws_launch_configuration.zadni.name}"
+    launch_configuration = "${aws_launch_configuration.build.name}"
 
-    load_balancers = [ "${aws_elb.zadni.name}" ]
+    load_balancers = [ "${aws_elb.build.name}" ]
 
     user_data = "${template.cloud-init.rendered}"
 
     tag {
         key = "Name"
-        value = "zadni"
+        value = "build"
         propagate_at_launch = true
     }
 }

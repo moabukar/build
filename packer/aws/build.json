@@ -3,7 +3,7 @@
     "aws_access_key": "{{ env `AWS_ACCESS_KEY_ID` }}",
     "aws_secret_key": "{{ env `AWS_SECRET_ACCESS_KEY` }}",
 
-    "release":        "{{ env `ZADNI_RELEASE` }}"
+    "release":        "{{ env `build_RELEASE` }}"
   },
 
   "builders": [{
@@ -15,7 +15,7 @@
     "region":         "us-east-1",
     "source_ami":     "ami-5fb8c835",
     "instance_type":  "c1.medium",
-    "ami_name":       "zadni-{{ user `release` }}",
+    "ami_name":       "build-{{ user `release` }}",
 
     "ssh_username":   "ec2-user",
     "ssh_pty":        "true"

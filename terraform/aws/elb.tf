@@ -1,5 +1,5 @@
-resource "aws_elb" "zadni" {
-    name = "zadni-elb"
+resource "aws_elb" "build" {
+    name = "build-elb"
 
     availability_zones = [ "us-east-1a", "us-east-1b", "us-east-1c" ]
 
@@ -24,11 +24,11 @@ resource "aws_elb" "zadni" {
     connection_draining_timeout = 400
 
     tags {
-        Name = "zadni-elb"
+        Name = "build-elb"
     }
 }
 
 output "aws_elb" {
-    value = "${aws_elb.zadni.dns_name}"
+    value = "${aws_elb.build.dns_name}"
 }
 
